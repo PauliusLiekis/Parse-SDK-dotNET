@@ -1024,7 +1024,7 @@ namespace Parse {
     /// <param name="action">Action to be completed when device token is received.</param>
     internal static void RegisterDeviceTokenRequest(Action<byte[]> action) {
       RunOnMainThread(() => {
-        var deviceToken = UnityEngine.iOS.NotificationServices.deviceToken;
+        var deviceToken = UnityEngine.NotificationServices.deviceToken;
         if (deviceToken != null) {
           action(deviceToken);
           RegisteriOSPushNotificationListener((payload) => {
@@ -1042,9 +1042,9 @@ namespace Parse {
     /// <param name="action">Action to be completed when push notification is received.</param>
     internal static void RegisteriOSPushNotificationListener(Action<IDictionary<string, object>> action) {
       RunOnMainThread(() => {
-        int remoteNotificationCount = UnityEngine.iOS.NotificationServices.remoteNotificationCount;
+        int remoteNotificationCount = UnityEngine.NotificationServices.remoteNotificationCount;
         if (remoteNotificationCount > 0) {
-          var remoteNotifications = UnityEngine.iOS.NotificationServices.remoteNotifications;
+          var remoteNotifications = UnityEngine.NotificationServices.remoteNotifications;
           foreach (var val in remoteNotifications) {
             var userInfo = val.userInfo;
             var payload = new Dictionary<string, object>();
@@ -1056,7 +1056,7 @@ namespace Parse {
             action(payload);
           }
 
-          UnityEngine.iOS.NotificationServices.ClearRemoteNotifications();
+          UnityEngine.NotificationServices.ClearRemoteNotifications();
         }
 
         // Check in every frame.
@@ -1119,7 +1119,7 @@ namespace Parse {
     /// <summary>
     /// Initialize the app. Called from <see cref="ParseClient.Initialize(string, string)"/>. Guaranteed to be run on main thread.
     /// </summary>
-    public void Initialize() {
+	public void Initialize(string applicationVersion, string applicationBundleId, string applicationName) {
       if (settingsPath != null) {
         return;
       }
@@ -1129,9 +1129,14 @@ namespace Parse {
       // from main thread.
       isWebPlayer = Application.isWebPlayer;
       osVersion = SystemInfo.deviceModel;
-      appBuildVersion = Application.version;
-      appDisplayVersion = Application.bundleIdentifier;
-      appName = Application.productName;
+		// Unity 5 specific stuff
+      //appBuildVersion = Application.version;
+      //appDisplayVersion = Application.bundleIdentifier;
+      //appName = Application.productName;
+
+		appBuildVersion = applicationVersion;
+		appDisplayVersion = applicationBundleId;
+		appName = applicationName;
 
       settings = SettingsWrapper.Wrapper;
 

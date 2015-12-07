@@ -89,7 +89,7 @@ namespace Parse {
     /// </param>
     /// <param name="dotnetKey">The .NET API Key provided in the Parse dashboard.
     /// </param>
-    public static void Initialize(string applicationId, string dotnetKey) {
+		public static void Initialize(string applicationId, string dotnetKey, string applicationVersion, string applicationBundleId, string applicationName) {
       lock (mutex) {
         HostName = HostName ?? new Uri("https://api.parse.com/1/");
         ApplicationId = applicationId;
@@ -101,8 +101,8 @@ namespace Parse {
         ParseObject.RegisterSubclass<ParseSession>();
 
         // Give platform-specific libraries a chance to do additional initialization.
-        PlatformHooks.Initialize();
-      }
+		PlatformHooks.Initialize(applicationVersion, applicationBundleId, applicationName);
+		}
     }
 
     internal static Guid? InstallationId {
