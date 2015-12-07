@@ -74,7 +74,7 @@ namespace Parse {
     /// <summary>
     /// Constructor for use in ParseObject subclasses. Subclasses must specify a ParseClassName attribute.
     /// </summary>
-    protected ParseObject()
+    public ParseObject()
       : this(AutoClassName) {
     }
 
