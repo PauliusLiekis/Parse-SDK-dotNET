@@ -60,7 +60,7 @@ namespace Parse {
     private static readonly IParseCommandRunner commandRunner;
     internal static IParseCommandRunner ParseCommandRunner { get { return commandRunner; } }
 
-    internal static Uri HostName { get; set; }
+    public static Uri HostName { get; set; }
     internal static string MasterKey { get; set; }
     internal static string ApplicationId { get; set; }
     internal static string WindowsKey { get; set; }
